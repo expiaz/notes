@@ -1,0 +1,2 @@
+gcc -ffreestanding -c file.c -o file.o
+objdump -M intel intel-mnemonic -D file.o
