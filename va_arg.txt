@@ -40,7 +40,7 @@ list += sizeof(type)
 
 #define va_arg(list, type) \
 	list += sizeof(type), \
-	*((type *) list + sizeof(type))
+	*((type *) list - sizeof(type))
 
 // pour clore la liste d'arguments, il suffit de l'assignée à nulle
 // pour signaler la fin de l'utilisation et éviter des utilisations hasardeuses
