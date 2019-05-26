@@ -162,3 +162,23 @@ For a spurious IRQ, there is no real IRQ and the PIC chip's ISR (In Service Regi
 The correct way to handle an IRQ 7 is to first check the master PIC chip's ISR to see if the IRQ is a spurious IRQ or a real IRQ. If it is a real IRQ then it is treated the same as any other real IRQ. If it is a spurious IRQ then you ignore it (and do not send the EOI).
 
 The correct way to handle an IRQ 15 is similar, but a little trickier due to the interaction between the slave PIC and the master PIC. First check the slave PIC chip's ISR to see if the IRQ is a spurious IRQ or a real IRQ. If it is a real IRQ then it is treated the same as any other real IRQ. If it's a spurious IRQ then don't send the EOI to the slave PIC; however you will still need to send the EOI to the master PIC because the master PIC itself won't know that it was a spurious IRQ from the slave.
+
+## Mapping
+
+IRQ	Description
+0	Programmable Interrupt Timer Interrupt
+1	Keyboard Interrupt
+2	Cascade (used internally by the two PICs. never raised)
+3	COM2 (if enabled)
+4	COM1 (if enabled)
+5	LPT2 (if enabled)
+6	Floppy Disk
+7	LPT1 / Unreliable "spurious" interrupt (usually)
+8	CMOS real-time clock (if enabled)
+9	Free for peripherals / legacy SCSI / NIC
+10	Free for peripherals / SCSI / NIC
+11	Free for peripherals / SCSI / NIC
+12	PS2 Mouse
+13	FPU / Coprocessor / Inter-processor
+14	Primary ATA Hard Disk
+15	Secondary ATA Hard Disk

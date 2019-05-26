@@ -6,12 +6,12 @@
 # Virtual Adress Space
 
 Physical addresses are provided directly by the machine.
-– 1 physical address space per machine
-– the size of a physical address determines the maximum amount of addressable physical memory
+ï¿½ 1 physical address space per machine
+ï¿½ the size of a physical address determines the maximum amount of addressable physical memory
   e.g. 32bits => 2^32 => 4GB max
 
 Virtual addresses (or logical addresses) are addresses provided by the OS to processes.
-– one virtual address space per process
+ï¿½ one virtual address space per process
 => as the program runs, the OS and hardware (MMU) translate virtual @ to physical @
    => @ddress translation
 
@@ -22,8 +22,8 @@ Using physical addresses would need to calculate the offset from the start of th
 compute the addresses of functions and data in the code.
 
 Physical layout of 2 processes:
-|---------|       |-----------|
-A		  B
+|---------|       	|-----------|
+A		  			B
 
 0              0x100             0x259                        0xFFF
 |---------------|---------|--------|-----------|----------------|
@@ -37,7 +37,7 @@ Virtual layout of 2 processes:
 |--|--|--|--|     |--|--|--|--|--|--|
 A1 A2 A3 A4       B1 B2 B3 B4 B5 B6
 
-0								 0xFFF
+0								 									0xFFF
 |---------------|--|---|--|--|---|--|--|--|--|----------------------|
                 A4     B1 A3 A1  B2 A2 B3 B4                       end
 
@@ -55,21 +55,25 @@ Before diving into the computation of the adresses, let's look the structure of 
 Note that because pages and frames must be aligned on 4KB boundaries (4KB being 0x1000 bytes),
 the least significant 12 bits of the 32-bit adresses of pages/frames are always 0. The architecture uses them to store flags.
 
-CR3	-> Page directory Entry	-> Page Table Entry	-> Page (4kB)
-				-> Page Table Entry	-> Page (4kB)
-				... (max 2^10)
-	-> Page Directory Entry
+				PDE						PTE
+CR3	-> *Page directory Entry	-> *Page Table Entry	-> Page (4kB)
+								-> *Page Table Entry	-> Page (4kB)
+								... (max 2^10)
+	-> *Page Directory Entry
 	... (max 2^10 => 1024)
 
 Max size structure :
 1024 PDE of 32 bits each pointing to 1024 PTE of 32 bits (each pointing to 4kib)
-=> 1024 * 32 * 1024 * 32 => 32kib * 32kib => 
+=> 1024 * 32 * 1024 * 32 => 32kbit * 32kbit => 1Gbit
 
 CR3: Physical adress of the first page directory entry
 
 Page Directory Entry:
+ 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0 
+| page table address 4kb aligned (max 0xfffff000)           |Avail   |G |S |0 |A |D |W |U |R |P |
+
  0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
-|P |R |U |W |D |A |0 |S |G |Avail   | page table 4kb algined address                            |
+|P |R |U |W |D |A |0 |S |G |Avail   | page table 4kb aligned address (max 0xfffff000)           |
 
 G - Ignored
 S - Page size (0 for 4kb, 1 for 4 Mb)
@@ -81,6 +85,9 @@ R - Read / Write (when set), read-only otherwise
 P - Present
 
 Page Table Entry:
+ 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0 
+| physical page adress (frame) 4kb aligned                  |Avail   |G |0 |D |A |C |W |U |R |P |
+
  0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
 |P |R |U |W |C |A |D |0 |G |Avail   | physical page adress (frame) 4kb aligned                  |
 
@@ -94,6 +101,10 @@ R - Read / Write
 P - Present
 
 Virtual adress :
+
+ 31 30 29 28 27 26 25 24 23 22 21 20 19 18 17 16 15 14 13 12 11 10  9  8  7  6  5  4  3  2  1  0 
+| page directory entry index  | page table entry index      | @ offset in page                  |
+
  0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
 |@ offset in page                   | page table entry index      | page directory entry index  |
 
@@ -116,8 +127,6 @@ if (!pd_entry->P)
 	pd_entry = new_pd_entry();
 
 u32 *pt = (u32 *) page_table + (1024 * pd_index);
-
-u32
 
 # MMU
 
