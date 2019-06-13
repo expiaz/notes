@@ -1,4 +1,4 @@
-[https://www.student.cs.uwaterloo.ca/~cs350/W11/notes/vm.pdf]
+﻿[https://www.student.cs.uwaterloo.ca/~cs350/W11/notes/vm.pdf]
 [https://web.archive.org/web/20160326061042/http://jamesmolloy.co.uk/tutorial_html/6.-Paging.html]
 [https://wiki.osdev.org/Memory_management]
 [https://wiki.osdev.org/Paging]
@@ -112,6 +112,7 @@ Virtual adress :
 ## Translation virtual to physical :
 
 ((PTE *) ((PDE *) cr3 + sizeof(PDE) * (vaddr >> 22))->page_table + (sizeof(PTE) * (vaddr >> 12 & 0x3FF))->page_address + (vaddr & 0xFFF)
+((char *) ((char *) ((char *) cr3) + sizeof(PDE) * (vaddr >> 22)) + (sizeof(PTE) * (vaddr >> 12 & 0x3FF)) + (vaddr >> 12 & 0x3FF) + (vaddr & 0xFFF)
 
 ([([cr3 + 32 * (vaddr >> 22)] >> 12) + (32 * (vaddr >> 12 & 0x3FF))] >> 12) + (vaddr & 0xFFF)
 

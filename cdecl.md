@@ -32,7 +32,7 @@ push ebp
 mov ebp, esp
 sub esp, 0x4
 --body local
-mov [ebp-0x4], 0x5
+mov [ebp-0x4], dword 0x5 ; mov [esp], dword 0x5
 --ret value
 mov eax, [ebp-0x4]
 mov esp, ebp
