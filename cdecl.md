@@ -1,20 +1,21 @@
 c calling convention
 
-call func
-    push ip+1
+call func				; goto callee
+    push eip+sizeof(*eip)
     jmp func
 
-ret
-    pop return
-    jmp return
+enter                   ; create new stack frame (backup old one before)
+    push ebp
+    mov ebp, esp
 
-leave                   delete local variables
+leave                   ; delete local variables
     mov esp, ebp
     pop ebp
 
-enter                   create new stack frame (backup old one before)
-    push ebp
-    mov ebp, esp
+ret						; return to caller
+    pop return
+    jmp return
+
 
 convention:
 
@@ -63,10 +64,10 @@ in little edian data are stored from 0 to inf.
 e.g. that's why [ebp-4] == 3 and not [ebp] == 3 
 bc [ebp] is data from where is ebp to the size of the data accessed
 
-x1000  ____ ebp 
-x0ffc | var	esp (4 bytes interger)
-	  |
-x0	  |____
+x1000  ____   ebp 
+x0ffc | var | esp (4 bytes interger)
+	  |     |
+x0	  |____ |
 
 1. passing parameters from caller
 
@@ -89,27 +90,27 @@ push    2
 push    1
 call    callee
 
-x1000  ____ ebp
-	4 | var
-	4 | 3
-	4 | 2   
-	4 | 1   
-	@ | ret esp
-0	  |____
+x1000  _____  ebp
+	4 | var |
+	4 | 3   |
+	4 | 2   |
+	4 | 1   |
+	@ | ret | esp
+0	  |_____|
 
 2. Creating new stack frame for callee
 
 push ebp	; save old call frame bc callee is responsible to recreate it after
 mov  ebp, esp	; initalize new call frame (0 data for the moment so bp === sp)
 
-x1000  ____
-	4 | var
-	4 | 3
-	4 | 2   
-	4 | 1   
-	@ | ret
-	@ | ebp ebp, esp
-0	  |____
+x1000  _____
+	4 | var |
+	4 | 3   |
+	4 | 2   |
+	4 | 1   |
+	@ | ret |
+	@ | ebp | ebp, esp
+0	  |____ |
 
 3. Local variables and accessible parameters
 
@@ -126,21 +127,21 @@ mov	ebx, [ebp + 12] ; parameter c
 mov eax, [esp]
 add	eax, ebx     ; add + c
 
-x1000  ____
-	4 | var
-	4 | 3
-	4 | 2   
-	4 | 1   
-	@ | ret
-	@ | ebp ebp
-	4 | add esp
-0	  |____
+x1000  _____
+	4 | var |
+	4 | 3   |
+	4 | 2   |
+	4 | 1   |
+	@ | ret |
+	@ | ebp | ebp
+	4 | add | esp
+0	  |_____|
 
 4. Returning from the function
 
 restore old call frame (some compilers may produce a 'leave' instruction instead)
 
-sub esp, 4		; remove local variables from frame, ebp - esp = 4.
+add esp, 4		; remove local variables from frame, ebp - esp = 4.
 OR
 mov esp, ebp	; compilers will usually produce the following instead
 				; which is just as fast,
@@ -148,15 +149,15 @@ mov esp, ebp	; compilers will usually produce the following instead
 				; also works for variable length arguments
 				; and variable length arrays allocated on the stack.
 
-x1000  ____
-	4 | var
-	4 | 3
-	4 | 2   
-	4 | 1   
-	@ | ret
-	@ | ebp ebp, esp
-	4 | add 
-0	  |____
+x1000  _____
+	4 | var |
+	4 | 3   |
+	4 | 2   |
+	4 | 1   |
+	@ | ret |
+	@ | ebp | ebp, esp
+	4 | add |
+0	  |_____|
 
 
 most calling conventions dictate ebp be callee-saved,
@@ -167,30 +168,30 @@ so we need to make sure it uses a calling convention which does this
 
 pop ebp ; restore the caller base stack
 
-x1000  ____ ebp
-	4 | var
-	4 | 3
-	4 | 2   
-	4 | 1   
-	@ | ret esp
-	@ | ebp 
-	4 | add 
-0	  |____
+x1000  _____  ebp
+	4 | var |
+	4 | 3   |
+	4 | 2   |
+	4 | 1   |
+	@ | ret | esp
+	@ | ebp |
+	4 | add |
+0	  |_____|
 
 ret ; return add + c;
 OR 
 pop ebx ; get the return address from the stack
 jmp ebx
 
-x1000	  _____ ebp
-	4 | var
-	4 | 3
-	4 | 2   
-	4 | 1   esp
-	@ | ret 
-	@ | ebp 
-	4 | add 
-0	  |____
+x1000  _____  ebp
+	4 | var |
+	4 | 3   |
+	4 | 2   |
+	4 | 1   | esp
+	@ | ret |
+	@ | ebp |
+	4 | add |
+0	  |_____|
 
 
 5. use return value
@@ -201,12 +202,12 @@ add eax, 5 ; callee(1, 2, 3) + 5
 
 add esp, 12 (4 x 3)
 
-x1000	  _____ ebp
-	4 | var esp
-	4 | 3
-	4 | 2   
-	4 | 1   
-	@ | ret 
-	@ | ebp 
-	4 | add 
-0	  |____
+x1000  _____  ebp
+	4 | var | esp
+	4 | 3   |
+	4 | 2   |
+	4 | 1   |
+	@ | ret |
+	@ | ebp |
+	4 | add |
+0	  |_____|
