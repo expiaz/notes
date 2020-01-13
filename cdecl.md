@@ -1,6 +1,6 @@
 c calling convention
 
-call func				; goto callee
+call func                ; goto callee
     push eip+sizeof(*eip)
     jmp func
 
@@ -12,7 +12,7 @@ leave                   ; delete local variables
     mov esp, ebp
     pop ebp
 
-ret						; return to caller
+ret                        ; return to caller
     pop return
     jmp return
 
@@ -44,17 +44,17 @@ jmp ebx
 
 int callee(int a, int b, int c)
 {
-	int add;
+    int add;
 
-	add = a + b;
-	return add + c;
+    add = a + b;
+    return add + c;
 }
 
 int caller(void)
 {
-	int var;
-	
-	return var = calle(1, 2, 3) + 5;
+    int var;
+    
+    return var = calle(1, 2, 3) + 5;
 }
 
 /!\ esp and ebp points to the first bit of the represented data
@@ -66,8 +66,8 @@ bc [ebp] is data from where is ebp to the size of the data accessed
 
 x1000  ____   ebp 
 x0ffc | var | esp (4 bytes interger)
-	  |     |
-x0	  |____ |
+      |     |
+x0    |_____|
 
 1. passing parameters from caller
 
@@ -91,73 +91,73 @@ push    1
 call    callee
 
 x1000  _____  ebp
-	4 | var |
-	4 | 3   |
-	4 | 2   |
-	4 | 1   |
-	@ | ret | esp
-0	  |_____|
+    4 | var |
+    4 | 3   |
+    4 | 2   |
+    4 | 1   |
+    @ | ret | esp
+0     |_____|
 
 2. Creating new stack frame for callee
 
-push ebp	; save old call frame bc callee is responsible to recreate it after
-mov  ebp, esp	; initalize new call frame (0 data for the moment so bp === sp)
+push ebp    ; save old call frame bc callee is responsible to recreate it after
+mov  ebp, esp    ; initalize new call frame (0 data for the moment so bp === sp)
 
 x1000  _____
-	4 | var |
-	4 | 3   |
-	4 | 2   |
-	4 | 1   |
-	@ | ret |
-	@ | ebp | ebp, esp
-0	  |____ |
+    4 | var |
+    4 | 3   |
+    4 | 2   |
+    4 | 1   |
+    @ | ret |
+    @ | ebp | ebp, esp
+0     |_____|
 
 3. Local variables and accessible parameters
 
-sub	esp, 4 ; make space for the local variable 'add'
+sub esp, 4 ; make space for the local variable 'add'
 
-mov	eax, [ebp + 4] ; parameter a
-mov	ebx, [ebp + 8] ; parameter b
+mov eax, [ebp + 4] ; parameter a
+mov ebx, [ebp + 8] ; parameter b
 
-add	eax, ebx     ; a + b
-mov	[esp], eax   ; add = a + b
+add eax, ebx     ; a + b
+mov [esp], eax   ; add = a + b
 
-mov	ebx, [ebp + 12] ; parameter c
+mov ebx, [ebp + 12] ; parameter c
 
 mov eax, [esp]
-add	eax, ebx     ; add + c
+add eax, ebx     ; add + c
 
 x1000  _____
-	4 | var |
-	4 | 3   |
-	4 | 2   |
-	4 | 1   |
-	@ | ret |
-	@ | ebp | ebp
-	4 | add | esp
-0	  |_____|
+    4 | var |
+    4 | 3   |
+    4 | 2   |
+    4 | 1   |
+    @ | ret |
+    @ | ebp | ebp
+    4 | add | esp
+0     |_____|
 
 4. Returning from the function
 
 restore old call frame (some compilers may produce a 'leave' instruction instead)
 
-add esp, 4		; remove local variables from frame, ebp - esp = 4.
+add esp, 4      ; remove local variables from frame, ebp - esp = 4.
 OR
-mov esp, ebp	; compilers will usually produce the following instead
-				; which is just as fast,
-				; and, unlike the add instruction
-				; also works for variable length arguments
-				; and variable length arrays allocated on the stack.
+mov esp, ebp    ; compilers will usually produce the following instead
+                ; which is just as fast,
+                ; and, unlike the add instruction
+                ; also works for variable length arguments
+                ; and variable length arrays allocated on the stack.
 
 x1000  _____
-	4 | var |
-	4 | 3   |
-	4 | 2   |
-	4 | 1   |
-	@ | ret |
-	@ | ebp | ebp, esp
-	4 | add |
-0	  |_____|
+    4 | var |
+    4 | 3   |
+    4 | 2   |
+    4 | 1   |
+    @ | ret |
+    @ | ebp | ebp, esp
+    4 | add |
+0     |_____|
 
 
 most calling conventions dictate ebp be callee-saved,
@@ -169,14 +169,14 @@ so we need to make sure it uses a calling convention which does this
 pop ebp ; restore the caller base stack
 
 x1000  _____  ebp
-	4 | var |
-	4 | 3   |
-	4 | 2   |
-	4 | 1   |
-	@ | ret | esp
-	@ | ebp |
-	4 | add |
-0	  |_____|
+    4 | var |
+    4 | 3   |
+    4 | 2   |
+    4 | 1   |
+    @ | ret | esp
+    @ | ebp |
+    4 | add |
+0     |_____|
 
 ret ; return add + c;
 OR 
@@ -184,14 +184,14 @@ pop ebx ; get the return address from the stack
 jmp ebx
 
 x1000  _____  ebp
-	4 | var |
-	4 | 3   |
-	4 | 2   |
-	4 | 1   | esp
-	@ | ret |
-	@ | ebp |
-	4 | add |
-0	  |_____|
+    4 | var |
+    4 | 3   |
+    4 | 2   |
+    4 | 1   | esp
+    @ | ret |
+    @ | ebp |
+    4 | add |
+0     |_____|
 
 
 5. use return value
@@ -203,11 +203,11 @@ add eax, 5 ; callee(1, 2, 3) + 5
 add esp, 12 (4 x 3)
 
 x1000  _____  ebp
-	4 | var | esp
-	4 | 3   |
-	4 | 2   |
-	4 | 1   |
-	@ | ret |
-	@ | ebp |
-	4 | add |
-0	  |_____|
+    4 | var | esp
+    4 | 3   |
+    4 | 2   |
+    4 | 1   |
+    @ | ret |
+    @ | ebp |
+    4 | add |
+0     |_____|
