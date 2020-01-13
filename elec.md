@@ -1,53 +1,53 @@
-Sources d'énergie : qui délivre l'énergie (pile, secteur)
+Sources d'energie : qui delivre l'energie (pile, secteur)
 
-Récépteur d'énergie : qui recoit l'énergie (ordi, telephone)
+Recepteur d'energie : qui recoit l'energie (ordi, telephone)
 
-Pour les notions suivantes nous prendrons exemple sur un moteur composé:
-- d'une source : un réservoir de carburant + pompe pour le délivrer
-- d'un récépteur : moteur à combustion + pot d'échappement
+Pour les notions suivantes nous prendrons exemple sur un moteur compose:
+- d'une source : un reservoir de carburant + pompe pour le delivrer
+- d'un recepteur : moteur e combustion + pot d'echappement
 
 ### Le courant
 
-Représenter par la pompe qui envoi le carburant vers le moteur. En le faisant
-circuler elle créer un courant, elle "débite un courant".
-Plus la quantité de courant déplacé sera grande, plus le se déplacera rapidemment, plus
-l'intensité du courant sera grande.
+Representer par la pompe qui envoi le carburant vers le moteur. En le faisant
+circuler elle creer un courant, elle "debite un courant".
+Plus la quantite de courant deplace sera grande, plus le se deplacera rapidemment, plus
+l'intensite du courant sera grande.
 
-Dans un circuit electronique, ce sont des charges éléctriques qui sont déplacés.
+Dans un circuit electronique, ce sont des charges electriques qui sont deplaces.
 
-#### Charges éléctriques
-Propriété intrinsèque de la matière, permettant d'expliquer l'origine de certains phénomènes.
-C'est une grandeur physique qu'on peut donner à un objet et qui peut être mesurée par un nombre :
+#### Charges electriques
+Propriete intrinseque de la matiere, permettant d'expliquer l'origine de certains phenomenes.
+C'est une grandeur physique qu'on peut donner a un objet et qui peut etre mesuree par un nombre :
 - >0 => charge de l'objet dit positive (+)
-- <0 => charge de l'objet dit négative (-)
+- <0 => charge de l'objet dit negative (-)
 - =0 => charge de l'objet nulle
 
-Les charges réagissent entre elles :
-- 2 charges égales (+ & + || - & -) se repoussent
-- 2 charges opposées s'attirent (+ & - || - & +)
+Les charges reagissent entre elles :
+- 2 charges egales (+ & + || - & -) se repoussent
+- 2 charges opposees s'attirent (+ & - || - & +)
 - les charges nulles se font rien
 
 La zone dans laquelle une charge va agir sur les autres charges s'appelle un
-"champ éléctrique"
+"champ electrique"
 
-=> Un courant éléctrique est un déplacement ordonné de charges éléctriques
-Pour être ordonné, il faut que toutes les charges se déplacent dans le même sens / direction
+=> Un courant electrique est un deplacement ordonne de charges electriques
+Pour etre ordonne, il faut que toutes les charges se deplacent dans le meme sens / direction
 
-#### Conductibilité
-Capacité à un matériaux à se faire traverser par un courant éléctrique
+#### Conductibilite
+Capacite e un materiaux e se faire traverser par un courant electrique
 
 Il existe 4 grandes familles:
-- isolants: conductivité nulle (le courant ne passe pas)
-- semi-conducteurs: conductivité faible (courant ne passe pas facilement)
-- conducteurs métalliques: conductivité forte (courant passe bien)
-- supraconducteur: conductivité infinie (courant passe sans résistance)
+- isolants: conductivite nulle (le courant ne passe pas)
+- semi-conducteurs: conductivite faible (courant ne passe pas facilement)
+- conducteurs metalliques: conductivite forte (courant passe bien)
+- supraconducteur: conductivite infinie (courant passe sans resistance)
 
 #### Sens du courant
-Pour que le courant se déplace dans un sens, il faut un "générateur éléctrique"
-Dans notre analogie, le générateur est la pompe, qui pompe l'essence depuis le réservoir vers
-le moteur, créant un déplacement dans un sens.
+Pour que le courant se deplace dans un sens, il faut un "generateur electrique"
+Dans notre analogie, le generateur est la pompe, qui pompe l'essence depuis le reservoir vers
+le moteur, creant un deplacement dans un sens.
 
-Par convention, le courant sors du pôle "+" du générateur vers le pôle "-"
+Par convention, le courant sors du pele "+" du generateur vers le pele "-"
 
 [+]------->-------[-]
 

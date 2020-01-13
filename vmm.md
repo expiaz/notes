@@ -6,12 +6,12 @@
 # Virtual Adress Space
 
 Physical addresses are provided directly by the machine.
-� 1 physical address space per machine
-� the size of a physical address determines the maximum amount of addressable physical memory
+1 physical address space per machine
+the size of a physical address determines the maximum amount of addressable physical memory
   e.g. 32bits => 2^32 => 4GB max
 
 Virtual addresses (or logical addresses) are addresses provided by the OS to processes.
-� one virtual address space per process
+one virtual address space per process
 => as the program runs, the OS and hardware (MMU) translate virtual @ to physical @
    => @ddress translation
 

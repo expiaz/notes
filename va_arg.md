@@ -1,12 +1,12 @@
 // on utilise un pointer sur char (ou u8int) pour parcourir un octet par un octet
 // et on profite ainsi de la puissance de sizeof sans avoir a faire de divisions sur la taille
-// en octets de l'untité
+// en octets de l'untite
  
 char *list;
 
-// récupère le début de aliste d'arguments en se basant sur l'adresse d'un argument connus
-// cela fonctionne car les arguments sont poussés à l'envers sur la stack lors de l'appel d'une fonction en C
-// le premier argument est poussé en dernier, cela permet a la callee de récupérer les arguments dans l'ordre lors du dépilement
+// recupere le debut de aliste d'arguments en se basant sur l'adresse d'un argument connus
+// cela fonctionne car les arguments sont pousses a l'envers sur la stack lors de l'appel d'une fonction en C
+// le premier argument est pousse en dernier, cela permet a la callee de recuperer les arguments dans l'ordre lors du depilement
 
 #define va_start(list, from) list = ((char *) &from) + sizeof(from)
 
@@ -29,8 +29,8 @@ void callee (char a, int b, ...) {
 
 */
 
-// pour recuperer un argument, il suffit de prendre X bits (taille du type de l'argument demandé) du haut de la stack
-// ensuite on incrémente d'autant le haut de la stack pour qu'il pointe vers le suivant
+// pour recuperer un argument, il suffit de prendre X bits (taille du type de l'argument demande) du haut de la stack
+// ensuite on incremente d'autant le haut de la stack pour qu'il pointe vers le suivant
 
 // conversion au type, passage par un pointer car list est l'adresse du haut de la stack
 *((type *) list)
@@ -42,8 +42,8 @@ list += sizeof(type)
 	list += sizeof(type), \
 	*((type *) list - sizeof(type))
 
-// pour clore la liste d'arguments, il suffit de l'assignée à nulle
-// pour signaler la fin de l'utilisation et éviter des utilisations hasardeuses
+// pour clore la liste d'arguments, il suffit de l'assignee a nulle
+// pour signaler la fin de l'utilisation et eviter des utilisations hasardeuses
 
 #define va_end(list) list = NULL
 

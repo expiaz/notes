@@ -22,6 +22,7 @@ a chaque fois
 A² = C <=> sqrt(A) = C & sqrt(-A) = C
 
 ### Retenir
+
 - si l'opération est réversible, alors les solutions sont exactement les mêmes ;
 - si l'opération n'est pas réversible, alors il est possible que de nouvelles solutions apparaissent au cours de la transformation ;
 - si l'opération possède des valeurs impossibles, alors il est possible que des solutions disparaissent au cours de la transformation.
