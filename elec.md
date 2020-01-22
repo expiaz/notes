@@ -4,7 +4,7 @@ Recepteur d'energie : qui recoit l'energie (ordi, telephone)
 
 Pour les notions suivantes nous prendrons exemple sur un moteur compose:
 - d'une source : un reservoir de carburant + pompe pour le delivrer
-- d'un recepteur : moteur e combustion + pot d'echappement
+- d'un recepteur : moteur a combustion + pot d'echappement
 
 ### Le courant
 
@@ -34,7 +34,7 @@ La zone dans laquelle une charge va agir sur les autres charges s'appelle un
 Pour etre ordonne, il faut que toutes les charges se deplacent dans le meme sens / direction
 
 #### Conductibilite
-Capacite e un materiaux e se faire traverser par un courant electrique
+Capacite a un materiaux a se faire traverser par un courant electrique
 
 Il existe 4 grandes familles:
 - isolants: conductivite nulle (le courant ne passe pas)
